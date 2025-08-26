@@ -11,15 +11,20 @@ int main (int argc, char* args[])
   SDL_Renderer* ren = SDL_CreateRenderer(win, -1, 0);
 
   /* EXECUÇÃO */
-  SDL_SetRenderDrawColor(ren, 0xFF,0xFF,0xFF,0x00);
-  SDL_RenderClear(ren);
   SDL_SetRenderDrawColor(ren, 0,0,0xFF,0x00);
-  SDL_RenderDrawLine(ren,50,50,100,100);
+  SDL_RenderClear(ren);
   SDL_SetRenderDrawColor(ren, 0,0,0,0x00);
   SDL_RenderDrawPoint(ren,150,150);
-  SDL_SetRenderDrawColor(ren, 255,0,0,0x00);
-  SDL_Rect r = {-45,270, 200,40 };
+  SDL_SetRenderDrawColor(ren, 0,0,0,0x00);
+  SDL_Rect r = {0,400, 600,200};
   SDL_RenderFillRect(ren, &r);
+  SDL_SetRenderDrawColor(ren, 255,255,0,0x00);
+  SDL_Rect r1 = {0,475, 600,50};
+  SDL_RenderFillRect(ren, &r1);
+  SDL_SetRenderDrawColor(ren, 255,255,255,0x00);
+  SDL_RenderDrawLine(ren,300,500,300,400);
+  SDL_RenderDrawLine(ren,300,500,400,575);
+  SDL_RenderDrawLine(ren,300,500,200,575);
   SDL_RenderPresent(ren);
   SDL_Delay(5000);
 
