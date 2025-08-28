@@ -13,7 +13,7 @@ int main (int argc, char* args[])
 
     /* EXECUÇÃO */
     int i =0;
-    while(i<645){
+    while(i<650){
         SDL_SetRenderDrawColor(ren, 0,0,0xFF,0x00);
         SDL_RenderClear(ren);
         SDL_SetRenderDrawColor(ren, 0,0,0,0x00);
@@ -32,7 +32,7 @@ int main (int argc, char* args[])
         SDL_Rect r3 = {i+80,375, 20,20 };
         SDL_RenderFillRect(ren, &r3);
         SDL_RenderPresent(ren);
-        SDL_Delay(50);
+        SDL_Delay(25);
         i++;
     }
 

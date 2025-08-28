@@ -24,11 +24,17 @@ void MoverRetangulos(SDL_Renderer* ren){
         int inicio = i*2;
         retangulos[i].x =  retangulos[i].x + (velocidade* direcaoRetangulos[inicio]);
         retangulos[i].y =  retangulos[i].y + (velocidade* direcaoRetangulos[inicio+1]);
-        if(retangulos[i].x >= 500 ||retangulos[i].x <= 100 ){
-            direcaoRetangulos[inicio] = direcaoRetangulos[inicio] * (-1);
+        if(retangulos[i].x >= 500){
+            direcaoRetangulos[inicio] = -1;
         }
-        if(retangulos[i].y >= 500 || retangulos[i].y <= 100){
-            direcaoRetangulos[inicio+1] = direcaoRetangulos[inicio+1] * (-1);
+        if(retangulos[i].x <= 0){
+            direcaoRetangulos[inicio] = 1;
+        }
+        if(retangulos[i].y >= 500){
+            direcaoRetangulos[inicio+1] = -1;
+        }
+        if(retangulos[i].y <= 0){
+            direcaoRetangulos[inicio+1] = 1;
         }
         SDL_RenderFillRect(ren, &retangulos[i]);
         i++;
@@ -53,7 +59,7 @@ int main (int argc, char* args[])
     while(i){
            
         SDL_Event evt;
-        SDL_WaitEvent(&evt);
+        SDL_WaitEventTimeout(&evt,25);
         switch (evt.type)
         {
             case SDL_QUIT:
