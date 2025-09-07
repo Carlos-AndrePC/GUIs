@@ -32,7 +32,7 @@ int main (int argc, char* args[])
         SDL_Rect r3 = {i+80,375, 20,20 };
         SDL_RenderFillRect(ren, &r3);
         SDL_RenderPresent(ren);
-        SDL_Delay(25);
+        SDL_Delay(100);
         i++;
     }
 
