@@ -1,19 +1,19 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <stdio.h>
 
 SDL_Rect retangulos[3];
 int nRetangulos = 0;
 int esperaRetangulotTempo = 100;
-
-int dirTempo[] = {1, 1};
+int vencendor = -1;
+int terminaram[] = {0,0,0};
+int dirTempo[] = {1, 0};
 
 void CriarRetanguloMouse(SDL_Renderer *ren, int i)
 {
-    int x, y;
-    Uint32 Buttons = SDL_GetMouseState(&x, &y);
     SDL_SetRenderDrawColor(ren, 0, 0, 0, 0x00);
-    retangulos[i].x = x;
-    retangulos[i].y = y;
+    retangulos[i].x = 0;
+    retangulos[i].y = 0+(i*30);
     retangulos[i].w = 10;
     retangulos[i].h = 10;
     SDL_RenderFillRect(ren, &retangulos[i]);
@@ -24,31 +24,34 @@ void MoverRetanguloMouse()
 {
     int x, y;
     Uint32 Buttons = SDL_GetMouseState(&x, &y);
+    if(x>=180){
+        x = 180;
+        if(vencendor == -1){
+            vencendor = 0;
+            printf("O vencedor é o 0\n");
+        }
+        terminaram[0] = 1;
+    }
     retangulos[0].x = x;
-    retangulos[0].y = y;
+    retangulos[0].y = 0;
 }
 
 void MoverRetanguloTempo()
 {
-    int x, y;
-    Uint32 Buttons = SDL_GetMouseState(&x, &y);
     retangulos[1].x += 5 * dirTempo[0];
     retangulos[1].y += 5 * dirTempo[1];
-    if (retangulos[1].x >= 200)
+    if (retangulos[1].x >= 180)
     {
-        dirTempo[0] = -1;
+        dirTempo[0] = 0;
+        if(vencendor == -1){
+            vencendor = 1;
+            printf("O vencedor é o 1\n");
+        }
+        terminaram[1] = 1;
     }
     if (retangulos[1].x <= 0)
     {
-        dirTempo[0] = 1;
-    }
-    if (retangulos[1].y >= 100)
-    {
-        dirTempo[1] = -1;
-    }
-    if (retangulos[1].y <= 0)
-    {
-        dirTempo[1] = 1;
+        dirTempo[0] = 0;
     }
 }
 
@@ -61,6 +64,15 @@ void RenderRetangulos(SDL_Renderer *ren)
         SDL_RenderFillRect(ren, &retangulos[i]);
         i++;
     }
+}
+
+void ReiniciarPosição(){
+    for(int i =0;i<3;i++){
+        retangulos[i].x = 0;    
+        terminaram[i] = 0;
+    }
+    vencendor = -1;
+    dirTempo[0] = 1;
 }
 
 int AUX_WaitEventTimeout(SDL_Event *evt, Uint32 *ms)
@@ -94,18 +106,23 @@ int main(int argc, char *args[])
     SDL_Renderer *ren = SDL_CreateRenderer(win, -1, 0);
 
     /* EXECUÇÃO */
-    SDL_Rect r = {40, 20, 10, 10};
+    
     SDL_Event evt;
+    SDL_SetRenderDrawColor(ren, 0, 0, 0, 0x00);
+    SDL_Rect r = {180, 0, 20, 200};
     CriarRetanguloMouse(ren, 0);
     CriarRetanguloMouse(ren, 1);
+    CriarRetanguloMouse(ren, 2);
     Uint32 ms = esperaRetangulotTempo;
     while (1)
     {
+        if(terminaram[0] == 1 && terminaram[1] == 1 && terminaram[2] == 1){
+            ReiniciarPosição();
+        }
         SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0x00);
         SDL_RenderClear(ren);
-        SDL_SetRenderDrawColor(ren, 0x00, 0x00, 0xFF, 0x00);
+        SDL_SetRenderDrawColor(ren, 255, 0, 0, 0x00);
         SDL_RenderFillRect(ren, &r);
-        
         RenderRetangulos(ren);
         SDL_RenderPresent(ren);
         if(AUX_WaitEventTimeout(&evt, &ms))
@@ -119,21 +136,20 @@ int main(int argc, char *args[])
             {
                 switch (evt.key.keysym.sym)
                 {
-                case SDLK_UP:
-                    if (r.y > 0)
-                        r.y -= 5;
-                    break;
-                case SDLK_DOWN:
-                    if (r.y < 90)
-                        r.y += 5;
                     break;
                 case SDLK_LEFT:
-                    if (r.x > 0)
-                        r.x -= 5;
+                    if (retangulos[2].x > 0)
+                        retangulos[2].x -= 5;
                     break;
                 case SDLK_RIGHT:
-                    if (r.x < 190)
-                        r.x += 5;
+                    if (retangulos[2].x < 180) retangulos[2].x += 5;
+                    else{
+                        if(vencendor == -1) {
+                            vencendor = 2;
+                            printf("O vencedor é o 2\n");
+                        }
+                        terminaram[2] = 1;;
+                    }
                     break;
                 }
             }
