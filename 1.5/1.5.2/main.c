@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+
 SDL_Rect retangulos[3];
 int nRetangulos = 0;
 int esperaRetangulotTempo = 100;
