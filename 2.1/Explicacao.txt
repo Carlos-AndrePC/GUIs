@@ -1,0 +1,1 @@
+O programa cria um evento apos um clique de mouse apos passar 250 ms ou o clique acontecer em uma localização diferente que fala quantos cliques foram evetuados e com essa informação ele pegara uma letra do alfabeto e printara na tela
