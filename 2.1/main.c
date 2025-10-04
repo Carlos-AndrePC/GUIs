@@ -62,7 +62,7 @@ int main(int argc, char *args[])
                 SDL_Quit();
                 break;
             }
-            if(evt.type == SDL_MOUSEBUTTONDOWN){
+            else if(evt.type == SDL_MOUSEBUTTONDOWN){
                 int x1,y1;
                 Uint32 Buttons = SDL_GetMouseState(&x1, &y1);
                 if( x == x1 && y == y1){
@@ -75,8 +75,12 @@ int main(int argc, char *args[])
                 }
                 contador_de_clique ++;
             }
+            else if(evt.type == SDL_MOUSEMOTION){
+                ms = espera;
+                CriarEvento(&contador_de_clique);
+            }
             else if(evt.type == SDL_USEREVENT){
-                if (evt.user.code !=0 )printf(" %c",(char)(evt.user.code%26)+1+96);
+                if (evt.user.code !=0 )printf(" %c",(char)(evt.user.code%26)+96);
             }
        }
        else
